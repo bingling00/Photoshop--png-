@@ -8,7 +8,7 @@
 //  Adobe Photoshop CS2 or higher
 
 // Most current version always available at: https://github.com/antipalindrome/Photoshop-Export-Layers-to-Files-Fast
-
+//翻译：小四喜 https://github.com/bingling00/Photoshop--png-
 // enable double-clicking from Finder/Explorer (CS2 and higher)
 #target photoshop
 
@@ -479,7 +479,7 @@ function main() {
         }
         var collected = collectLayers(progressBarWindow);
         if (userCancelled) {
-            alert("Export cancelled! No files saved.", "Finished", false);
+            alert("导出取消，没有导出任何文件。", "完成", false);
             return "cancel";
         }
         layers = collected.layers;
@@ -510,9 +510,9 @@ function main() {
 
             var message = "";
             if (userCancelled) {
-                message += "Export cancelled!\n\n";
+                message += "导出取消\n\n";
             }
-            message += "Saved " + count.count + " files.";
+            message += "储存了 " + count.count + " 个文件.";
             if (env.profiling) {
                 message += "\n\nExport function took " + profiler.format(collectionDuration) + " + " + profiler.format(exportDuration) + " to perform.";
             }
@@ -520,7 +520,7 @@ function main() {
                 message += "\n\nSome layers failed to export! (Are there many layers with the same name?)";
             }
             if(!prefs.silent && !BATCH_OPERATION) {
-                alert(message, "Finished", count.error);
+                alert(message, "完成", count.error);
             }
         }
 
@@ -2598,7 +2598,7 @@ function makeMainDialog() {
     // PNLDESTINATION
     // ==============
     var pnlDestination = grpCol1.add("panel", undefined, undefined, {name: "pnlDestination"}); 
-    pnlDestination.text = "Output Destination"; 
+    pnlDestination.text = "储存位置"; 
     pnlDestination.orientation = "row"; 
     pnlDestination.alignChildren = ["left","center"]; 
     pnlDestination.spacing = 10; 
@@ -2606,17 +2606,17 @@ function makeMainDialog() {
     pnlDestination.alignment = ["left","center"]; 
 
     var txtDestination = pnlDestination.add('edittext {properties: {name: "txtDestination"}}'); 
-    txtDestination.helpTip = "Where to save the files"; 
+    txtDestination.helpTip = "储存位置"; 
     txtDestination.preferredSize.width = 200; 
 
     var btnBrowse = pnlDestination.add("button", undefined, undefined, {name: "btnBrowse"}); 
-    btnBrowse.text = "Browse..."; 
+    btnBrowse.text = "浏览..."; 
     btnBrowse.justify = "left"; 
 
     // PNLEXPORT
     // =========
     var pnlExport = grpCol1.add("panel", undefined, undefined, {name: "pnlExport"}); 
-    pnlExport.text = "Export"; 
+    pnlExport.text = '导出'; 
     pnlExport.orientation = "column"; 
     pnlExport.alignChildren = ["left","top"]; 
     pnlExport.spacing = 11; 
@@ -2633,12 +2633,12 @@ function makeMainDialog() {
 
     var radioAll = grpExport.add("radiobutton", undefined, undefined, {name: "radioAll"}); 
     radioAll.helpTip = "Exports all layers"; 
-    radioAll.text = "All Layers"; 
+    radioAll.text = "所有图层"; 
     radioAll.value = true; 
 
     var radioSelected = grpExport.add("radiobutton", undefined, undefined, {name: "radioSelected"}); 
     radioSelected.helpTip = "Only exports selected group. Must select a group to be enabled."; 
-    radioSelected.text = "Selected Group"; 
+    radioSelected.text = "选择的组（貌似无效）"; 
 
     // GRPIGNORE
     // =========
@@ -2650,7 +2650,7 @@ function makeMainDialog() {
 
     var cbVisibleOnly = grpIgnore.add("checkbox", undefined, undefined, {name: "cbVisibleOnly"}); 
     cbVisibleOnly.helpTip = "Whether to export only visible layers"; 
-    cbVisibleOnly.text = "Visible Only"; 
+    cbVisibleOnly.text = "仅导出可见图层"; 
 
     // GRPIGNOREPREFIX
     // ===============
@@ -2661,25 +2661,25 @@ function makeMainDialog() {
     grpIgnorePrefix.margins = 0; 
 
     var cbIgnorePrefix = grpIgnorePrefix.add("checkbox", undefined, undefined, {name: "cbIgnorePrefix"}); 
-    cbIgnorePrefix.helpTip = "Ignore layers starting with"; 
-    cbIgnorePrefix.text = "Ignore Layers Starting With "; 
+    cbIgnorePrefix.helpTip = "忽略某些有以下前缀的图层，例如：图层"; 
+    cbIgnorePrefix.text = "忽略的图层前缀 "; 
 
     var txtIgnorePrefix = grpIgnorePrefix.add('edittext {properties: {name: "txtIgnorePrefix"}}'); 
-    txtIgnorePrefix.helpTip = "The prefix to match against"; 
-    txtIgnorePrefix.text = "!"; 
+    txtIgnorePrefix.helpTip = "输入图层前缀，有这个前缀的将被忽略"; 
+    txtIgnorePrefix.text = "图层"; 
     txtIgnorePrefix.preferredSize.width = 31; 
 
     // PNLNAMEFILES
     // ============
     var pnlNameFiles = grpCol1.add("panel", undefined, undefined, {name: "pnlNameFiles"}); 
-    pnlNameFiles.text = "Filenames"; 
+    pnlNameFiles.text = "文件名"; 
     pnlNameFiles.orientation = "column"; 
     pnlNameFiles.alignChildren = ["left","top"]; 
     pnlNameFiles.spacing = 4; 
     pnlNameFiles.margins = [10,10,10,10]; 
     pnlNameFiles.alignment = ["fill","center"]; 
 
-    var ddNameAs_array = ["Use layer name (strip extension)","Use layer name (keep extension)","Use layer and parent group names","Use index descending","Use index ascending"]; 
+    var ddNameAs_array = ["使用图层名称（去除扩展名）","使用图层名称","使用图层和父组名","使用图层索引（降序）","使用图层索引（升序）"]; 
     var ddNameAs = pnlNameFiles.add("dropdownlist", undefined, undefined, {name: "ddNameAs", items: ddNameAs_array}); 
     ddNameAs.selection = 0; 
 
@@ -2692,8 +2692,8 @@ function makeMainDialog() {
     grpDelimiter.margins = 0; 
 
     var cbDelimiter = grpDelimiter.add("checkbox", undefined, undefined, {name: "cbDelimiter"}); 
-    cbDelimiter.helpTip = "Whether to use a custom delimiter between words"; 
-    cbDelimiter.text = "Use Custom Delimiter"; 
+    cbDelimiter.helpTip = "是否在单词之间使用自定义分隔符(应该是把空格替换成别的)"; 
+    cbDelimiter.text = "使用自定义分隔符"; 
 
     var txtDelimiter = grpDelimiter.add('edittext {properties: {name: "txtDelimiter"}}'); 
     txtDelimiter.helpTip = "The delimiter to use between words"; 
@@ -2709,7 +2709,7 @@ function makeMainDialog() {
     grpCasing.margins = 0; 
 
     var lblLetterCasing = grpCasing.add("statictext", undefined, undefined, {name: "lblLetterCasing"}); 
-    lblLetterCasing.text = "Letter Casing"; 
+    lblLetterCasing.text = "字母大小写"; 
 
     var ddLetterCasing_array = ["Keep","Lowercase","Uppercase"]; 
     var ddLetterCasing = grpCasing.add("dropdownlist", undefined, undefined, {name: "ddLetterCasing", items: ddLetterCasing_array}); 
@@ -2732,11 +2732,11 @@ function makeMainDialog() {
     grpPrefixSuffixLabel.margins = [0,0,0,0]; 
 
     var lblPrefix = grpPrefixSuffixLabel.add("statictext", undefined, undefined, {name: "lblPrefix"}); 
-    lblPrefix.text = "Prefix"; 
+    lblPrefix.text = "前缀"; 
     lblPrefix.alignment = ["left","center"]; 
 
     var lblSuffix = grpPrefixSuffixLabel.add("statictext", undefined, undefined, {name: "lblSuffix"}); 
-    lblSuffix.text = "Suffix"; 
+    lblSuffix.text = "后缀"; 
 
     // GRPPREFIXSUFFIX
     // ===============
@@ -2777,7 +2777,7 @@ function makeMainDialog() {
 
     var btnRun = grpActions.add("button", undefined, undefined, {name: "btnRun"}); 
     btnRun.helpTip = "Runs the script with the selected settings"; 
-    btnRun.text = "Run"; 
+    btnRun.text = "运行脚本"; 
 
     // GRPCLOSEBUTTONS
     // ===============
@@ -2789,29 +2789,29 @@ function makeMainDialog() {
 
     var btnCancel = grpCloseButtons.add("button", undefined, undefined, {name: "btnCancel"}); 
     btnCancel.helpTip = "Closes the dialog and does not save any changes"; 
-    btnCancel.text = "Cancel"; 
+    btnCancel.text = "取消"; 
     btnCancel.preferredSize.width = 111; 
 
     var btnSaveAndCancel = grpCloseButtons.add("button", undefined, undefined, {name: "btnSaveAndCancel"}); 
     btnSaveAndCancel.helpTip = "Closes the dialog but saves any changes made"; 
-    btnSaveAndCancel.text = "Save and Close"; 
+    btnSaveAndCancel.text = "保存/关闭"; 
 
     // GRPACTIONS
     // ==========
     var cbOverwriteFiles = grpActions.add("checkbox", undefined, undefined, {name: "cbOverwriteFiles"}); 
     cbOverwriteFiles.helpTip = "If checked, will overwrite existing files if they have the same name. Otherwise it will make unique copies"; 
-    cbOverwriteFiles.text = "Overwrite Existing Files"; 
+    cbOverwriteFiles.text = "覆盖同名"; 
     cbOverwriteFiles.alignment = ["center","top"]; 
 
     var cbSilent = grpActions.add("checkbox", undefined, undefined, {name: "cbSilent"}); 
-    cbSilent.helpTip = "If checked, will run without a progress bar and success confirmation."; 
-    cbSilent.text = "Run Silently"; 
+    cbSilent.helpTip = "如果选中，将在没有进度条和成功确认的情况下运行."; 
+    cbSilent.text = "后台运行"; 
     cbSilent.alignment = ["center","top"]; 
 
     // PNLOUTPUT
     // =========
     var pnlOutput = grpCol2.add("panel", undefined, undefined, {name: "pnlOutput"}); 
-    pnlOutput.text = "Output Options"; 
+    pnlOutput.text = "输出设置"; 
     pnlOutput.orientation = "column"; 
     pnlOutput.alignChildren = ["left","top"]; 
     pnlOutput.spacing = 10; 
@@ -2827,12 +2827,12 @@ function makeMainDialog() {
     grpGroupsAs.margins = 0; 
 
     var cbGroupsAsFolders = grpGroupsAs.add("checkbox", undefined, undefined, {name: "cbGroupsAsFolders"}); 
-    cbGroupsAsFolders.helpTip = "Groups and sub-groups are saved as directories."; 
-    cbGroupsAsFolders.text = "Groups as Folders"; 
+    cbGroupsAsFolders.helpTip = "组和子组保存为目录."; 
+    cbGroupsAsFolders.text = "组保存为目录"; 
 
     var cbTopGroupsAsFolders = grpGroupsAs.add("checkbox", undefined, undefined, {name: "cbTopGroupsAsFolders"}); 
-    cbTopGroupsAsFolders.helpTip = "Groups are saved as directories. Layers in nested groups will be saved in their topmost group."; 
-    cbTopGroupsAsFolders.text = "Top Groups as Folders"; 
+    cbTopGroupsAsFolders.helpTip = "组保存为目录。嵌套组中的层将保存在其最上面的组中."; 
+    cbTopGroupsAsFolders.text = "顶层组保存为目录"; 
 
     var cbTopGroupsAsLayers = grpGroupsAs.add("checkbox", undefined, undefined, {name: "cbTopGroupsAsLayers"}); 
     cbTopGroupsAsLayers.helpTip = "Top level groups will merge all their children into a single layer before export"; 
@@ -2852,17 +2852,17 @@ function makeMainDialog() {
     grpForegroundBackground.margins = 0; 
 
     var cbForeground = grpForegroundBackground.add("checkbox", undefined, undefined, {name: "cbForeground"}); 
-    cbForeground.helpTip = "The top layer will be used as a foreground in every export."; 
-    cbForeground.text = "Top Layer as Foreground"; 
+    cbForeground.helpTip = "顶层将在每次导出中用作前景."; 
+    cbForeground.text = "顶层作为前景"; 
 
     var cbBackground = grpForegroundBackground.add("checkbox", undefined, undefined, {name: "cbBackground"}); 
-    cbBackground.helpTip = "The bottom layer will be used as a background in every export."; 
-    cbBackground.text = "Bottom Layer as Background"; 
+    cbBackground.helpTip = "底层将用作每次导出的背景."; 
+    cbBackground.text = "底层作为背景"; 
 
     // PNLMODIFYLAYERS
     // ===============
     var pnlModifyLayers = grpCol2.add("panel", undefined, undefined, {name: "pnlModifyLayers"}); 
-    pnlModifyLayers.text = "Modify Layers"; 
+    pnlModifyLayers.text = "修改图层"; 
     pnlModifyLayers.orientation = "column"; 
     pnlModifyLayers.alignChildren = ["left","top"]; 
     pnlModifyLayers.spacing = 5; 
@@ -2878,10 +2878,10 @@ function makeMainDialog() {
     grpTrim.margins = 0; 
 
     var cbTrim = grpTrim.add("checkbox", undefined, undefined, {name: "cbTrim"}); 
-    cbTrim.helpTip = "Whether to trim before export"; 
-    cbTrim.text = "Trim"; 
+    cbTrim.helpTip = "是否裁切"; 
+    cbTrim.text = "裁切"; 
 
-    var ddTrim_array = ["Each Layer","Each Layer (use trim())","Combined"]; 
+    var ddTrim_array = ["每一层","每一层 (use trim())","每一层的并集"]; 
     var ddTrim = grpTrim.add("dropdownlist", undefined, undefined, {name: "ddTrim", items: ddTrim_array}); 
     ddTrim.selection = 0; 
 
@@ -2894,8 +2894,8 @@ function makeMainDialog() {
     grpPadding.margins = 0; 
 
     var cbPadding = grpPadding.add("checkbox", undefined, undefined, {name: "cbPadding"}); 
-    cbPadding.helpTip = "Whether to add padding to every layer before export"; 
-    cbPadding.text = "Padding"; 
+    cbPadding.helpTip = "是否在导出前向每个层添加填充"; 
+    cbPadding.text = "扩展"; 
 
     // GRPPADDINGLABEL
     // ===============
@@ -2922,7 +2922,7 @@ function makeMainDialog() {
 
     var cbScale = grpScale.add("checkbox", undefined, undefined, {name: "cbScale"}); 
     cbScale.helpTip = "Whether to scale every layer before export"; 
-    cbScale.text = "Scale"; 
+    cbScale.text = "缩放"; 
 
     // GRPSCALELABEL
     // =============
@@ -2942,7 +2942,7 @@ function makeMainDialog() {
     // PNLEXPORTAS
     // ===========
     var pnlExportAs = dialog.add("panel", undefined, undefined, {name: "pnlExportAs", borderStyle: "none"}); 
-    pnlExportAs.text = "Export As"; 
+    pnlExportAs.text = "导出格式"; 
     pnlExportAs.orientation = "column"; 
     pnlExportAs.alignChildren = ["center","center"]; 
     pnlExportAs.spacing = 10; 
@@ -2975,19 +2975,19 @@ function makeMainDialog() {
     grpPng24Matte.margins = 0; 
 
     var lblPng24Matte = grpPng24Matte.add("statictext", undefined, undefined, {name: "lblPng24Matte"}); 
-    lblPng24Matte.text = "Matte"; 
+    lblPng24Matte.text = "背景填充"; 
 
-    var ddPng24Matte_array = ["White","Black","Gray","-","Background","Foreground"]; 
+    var ddPng24Matte_array = ["白","黑","灰","-","背景色","前景色"]; 
     var ddPng24Matte = grpPng24Matte.add("dropdownlist", undefined, undefined, {name: "ddPng24Matte", items: ddPng24Matte_array}); 
     ddPng24Matte.selection = 0; 
 
     // TABPNG24
     // ========
     var cbPng24Transparency = tabPng24.add("checkbox", undefined, undefined, {name: "cbPng24Transparency"}); 
-    cbPng24Transparency.text = "Transparency"; 
+    cbPng24Transparency.text = "透明"; 
 
     var cbPng24Interlaced = tabPng24.add("checkbox", undefined, undefined, {name: "cbPng24Interlaced"}); 
-    cbPng24Interlaced.text = "Interlaced"; 
+    cbPng24Interlaced.text = "交错的(Interlaced)"; 
 
     // TABPNG8
     // =======
@@ -3007,9 +3007,9 @@ function makeMainDialog() {
     grpPng8ColorReduction.margins = 0; 
 
     var lblPng8ColorReduction = grpPng8ColorReduction.add("statictext", undefined, undefined, {name: "lblPng8ColorReduction"}); 
-    lblPng8ColorReduction.text = "Color Reduction"; 
+    lblPng8ColorReduction.text = "仿色"; 
 
-    var ddPng8ColorReduction_array = ["Perceptual","Selective","Adaptive","Restrictive (Web)","-","Black & White","Grayscale","Mac OS","Windows"]; 
+    var ddPng8ColorReduction_array = ["可感知","可选择","自适应","限制性 (Web)","-","黑白","灰度","Mac OS","Windows"]; 
     var ddPng8ColorReduction = grpPng8ColorReduction.add("dropdownlist", undefined, undefined, {name: "ddPng8ColorReduction", items: ddPng8ColorReduction_array}); 
     ddPng8ColorReduction.selection = 0; 
 
@@ -3022,7 +3022,7 @@ function makeMainDialog() {
     grpPng8NumberOfColors.margins = 0; 
 
     var lblNumberOfColors = grpPng8NumberOfColors.add("statictext", undefined, undefined, {name: "lblNumberOfColors"}); 
-    lblNumberOfColors.text = "Number of Colors"; 
+    lblNumberOfColors.text = "颜色数量"; 
 
     var txtPng8NumberofColors = grpPng8NumberOfColors.add('edittext {properties: {name: "txtPng8NumberofColors"}}'); 
     txtPng8NumberofColors.preferredSize.width = 36; 
@@ -3036,9 +3036,9 @@ function makeMainDialog() {
     grpPng8Dither.margins = 0; 
 
     var lblPng8Dither = grpPng8Dither.add("statictext", undefined, undefined, {name: "lblPng8Dither"}); 
-    lblPng8Dither.text = "Dither"; 
+    lblPng8Dither.text = "抖动"; 
 
-    var ddPng8Dither_array = ["None","Diffusion","Pattern","Noise"]; 
+    var ddPng8Dither_array = ["无","扩散","图案","噪点"]; 
     var ddPng8Dither = grpPng8Dither.add("dropdownlist", undefined, undefined, {name: "ddPng8Dither", items: ddPng8Dither_array}); 
     ddPng8Dither.selection = 1; 
 
@@ -3069,9 +3069,9 @@ function makeMainDialog() {
     grpPng8Matte.margins = 0; 
 
     var lblPng8Matte = grpPng8Matte.add("statictext", undefined, undefined, {name: "lblPng8Matte"}); 
-    lblPng8Matte.text = "Matte"; 
+    lblPng8Matte.text = "背景填充"; 
 
-    var ddPng8Matte_array = ["White","Black","Gray","-","Background","Foreground"]; 
+    var ddPng8Matte_array = ["白","黑","灰","-","背景色","前景色"]; 
     var ddPng8Matte = grpPng8Matte.add("dropdownlist", undefined, undefined, {name: "ddPng8Matte", items: ddPng8Matte_array}); 
     ddPng8Matte.selection = 0; 
 
@@ -3084,7 +3084,7 @@ function makeMainDialog() {
     grpPng8Transparency.margins = 0; 
 
     var cbPng8Transparency = grpPng8Transparency.add("checkbox", undefined, undefined, {name: "cbPng8Transparency"}); 
-    cbPng8Transparency.text = "Transparency"; 
+    cbPng8Transparency.text = "透明"; 
 
     // GRPPNG8TRANSPARENCYDITHER
     // =========================
@@ -3096,9 +3096,9 @@ function makeMainDialog() {
     grpPng8TransparencyDither.margins = 0; 
 
     var lblPng8TransparencyDither = grpPng8TransparencyDither.add("statictext", undefined, undefined, {name: "lblPng8TransparencyDither"}); 
-    lblPng8TransparencyDither.text = "Transparency Dither"; 
+    lblPng8TransparencyDither.text = "透明度抖动"; 
 
-    var ddPng8TransparencyDither_array = ["None","Diffusion","Pattern","Noise"]; 
+    var ddPng8TransparencyDither_array = ["无","扩散","图案","噪点"]; 
     var ddPng8TransparencyDither = grpPng8TransparencyDither.add("dropdownlist", undefined, undefined, {name: "ddPng8TransparencyDither", items: ddPng8TransparencyDither_array}); 
     ddPng8TransparencyDither.selection = 0; 
 
@@ -3114,7 +3114,7 @@ function makeMainDialog() {
     // TABPNG8
     // =======
     var cbPng8Interlaced = tabPng8.add("checkbox", undefined, undefined, {name: "cbPng8Interlaced"}); 
-    cbPng8Interlaced.text = "Interlaced"; 
+    cbPng8Interlaced.text = "交错的(Interlaced)"; 
 
     // TABJPG
     // ======
@@ -3134,7 +3134,7 @@ function makeMainDialog() {
     grpJpgQuality.margins = 0; 
 
     var lblQuality = grpJpgQuality.add("statictext", undefined, undefined, {name: "lblQuality"}); 
-    lblQuality.text = "Quality"; 
+    lblQuality.text = "质量"; 
 
     var sldrJpgQuality = grpJpgQuality.add("slider", undefined, undefined, undefined, undefined, {name: "sldrJpgQuality"}); 
     sldrJpgQuality.minvalue = 0; 
@@ -3154,22 +3154,22 @@ function makeMainDialog() {
     grpJpgMatte.margins = 0; 
 
     var lblJpgMatte = grpJpgMatte.add("statictext", undefined, undefined, {name: "lblJpgMatte"}); 
-    lblJpgMatte.text = "Matte"; 
+    lblJpgMatte.text = "背景填充"; 
 
-    var ddJpgMatte_array = ["White","Black","Gray","-","Background","Foreground"]; 
+    var ddJpgMatte_array = ["白","黑","灰","-","背景色","前景色"]; 
     var ddJpgMatte = grpJpgMatte.add("dropdownlist", undefined, undefined, {name: "ddJpgMatte", items: ddJpgMatte_array}); 
     ddJpgMatte.selection = 0; 
 
     // TABJPG
     // ======
     var cbJpgIcc = tabJpg.add("checkbox", undefined, undefined, {name: "cbJpgIcc"}); 
-    cbJpgIcc.text = "ICC Profile"; 
+    cbJpgIcc.text = "嵌入颜色配置文件"; 
 
     var cbJpgOptimized = tabJpg.add("checkbox", undefined, undefined, {name: "cbJpgOptimized"}); 
-    cbJpgOptimized.text = "Optimized"; 
+    cbJpgOptimized.text = "优化"; 
 
     var cbJpgProgressive = tabJpg.add("checkbox", undefined, undefined, {name: "cbJpgProgressive"}); 
-    cbJpgProgressive.text = "Progressive"; 
+    cbJpgProgressive.text = "连续"; 
 
     // TABTIF
     // ======
